@@ -51,6 +51,8 @@ public class CardLogic {
 			}
 			
 			br.close();
+			//initial shuffle
+			Collections.shuffle(cards);
 			return true;
 		} catch (FileNotFoundException e) {
 			System.out.println("An error occurred loading cards.txt.");
