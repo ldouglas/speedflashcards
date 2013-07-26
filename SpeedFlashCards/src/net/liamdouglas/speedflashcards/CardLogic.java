@@ -16,6 +16,7 @@ public class CardLogic {
 	String cardsFileName = "cards.txt";
 	ArrayList<Card> cards = new ArrayList<Card>();
 	int nextCard = 0;
+	long timeStamp = 0;
 	
 	public CardLogic() {
 		
@@ -79,14 +80,24 @@ public class CardLogic {
 	 */
 	public Card getNextCard() {
 		Card c = cards.get(nextCard);
-		System.out.println("Array size: " + cards.size());
 		if (nextCard == (cards.size()-1)) {
 			nextCard = 0;
 			shuffleCards();
 		} else {
 			nextCard++;
 		}
+		
+		//record time at which the next card was presented
+		timeStamp = System.currentTimeMillis();
+		
 		return c;
+	}
+	
+	public double timeTaken() {
+		long currentTime = System.currentTimeMillis();
+		long timeTaken = currentTime - timeStamp;
+		System.out.println(timeTaken);
+		return timeTaken;
 	}
 
 }

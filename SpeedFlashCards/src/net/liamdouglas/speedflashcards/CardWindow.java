@@ -23,11 +23,15 @@ public class CardWindow extends JFrame {
 
 	private CardLogic cl = new CardLogic();
 	private JPanel contentPane;
+	private final JLabel lblFront;
+	private final JLabel lblBack;
+	
 
 	/**
 	 * Create the frame.
 	 */
 	public CardWindow() {
+		//TODO: don't load everything if the files don't work?
 		if ((cl.prepareCardsFile() == true) && (cl.loadCardsFile() == true)) {}
 		
 		setResizable(false);
@@ -43,14 +47,14 @@ public class CardWindow extends JFrame {
 		SpringLayout sl_panel = new SpringLayout();
 		panel.setLayout(sl_panel);
 		
-		final JLabel lblFront = new JLabel("Front");
+		lblFront = new JLabel("Front");
 		lblFront.setHorizontalAlignment(SwingConstants.CENTER);
 		sl_panel.putConstraint(SpringLayout.NORTH, lblFront, 10, SpringLayout.NORTH, panel);
 		sl_panel.putConstraint(SpringLayout.WEST, lblFront, 10, SpringLayout.WEST, panel);
 		sl_panel.putConstraint(SpringLayout.EAST, lblFront, -10, SpringLayout.EAST, panel);
 		panel.add(lblFront);
 		
-		final JLabel lblBack = new JLabel("Back");
+		lblBack = new JLabel("Back");
 		sl_panel.putConstraint(SpringLayout.WEST, lblBack, 0, SpringLayout.WEST, lblFront);
 		sl_panel.putConstraint(SpringLayout.EAST, lblBack, 0, SpringLayout.EAST, lblFront);
 		lblBack.setHorizontalAlignment(SwingConstants.CENTER);
@@ -63,12 +67,24 @@ public class CardWindow extends JFrame {
 		btnNext.setHorizontalAlignment(SwingConstants.LEFT);
 		btnNext.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				Card c = cl.getNextCard();
-				lblFront.setText(c.front);
-				lblBack.setText(c.back);
+				cl.timeTaken();
+				displayNextCard();
 			}
 		});
 		panel.add(btnNext);
+		
+		//display the first card
+		displayNextCard();
+	}
+	
+	
+	/**
+	 * Get the next card to be displayed and update the necessary labels.
+	 */
+	private void displayNextCard() {
+		Card c = cl.getNextCard();
+		lblFront.setText(c.front);
+		lblBack.setText(c.back);
 	}
 
 }
